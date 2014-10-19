@@ -67,8 +67,11 @@ def main():
         model.experimentRunner.tp.mmGetDefaultMetrics())
 
       robot.reset()
-      model.experimentRunner.tm.reset()
-      model.experimentRunner.tp.reset()
+
+      doReset = raw_input("Reset (y/n)? ")
+      if doReset == "y":
+        model.experimentRunner.tm.reset()
+        model.experimentRunner.tp.reset()
 
       model.experimentRunner.tm.mmClearHistory()
       model.experimentRunner.tp.mmClearHistory()

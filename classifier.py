@@ -5,17 +5,17 @@ class Classifier(object):
     self.sdrThreshold = sdrThreshold
     self.durationThreshold = durationThreshold
 
-    self.activeIndices = set()
+    self.stableSdr = set()
     self.duration = 0
     self.classes = {}  # mapping from label => set
 
 
   def feed(self, sdr):
-    if len(sdr & self.activeIndices) >= self.sdrThreshold:
-      self.activeIndices = sdr & self.activeIndices
+    if len(sdr & self.stableSdr) >= self.sdrThreshold:
+      self.stableSdr = sdr & self.stableSdr
       self.duration += 1
     else:
-      self.activeIndices = sdr
+      self.stableSdr = sdr
       self.duration = 0
 
     if self.duration >= self.durationThreshold:
@@ -32,6 +32,7 @@ class Classifier(object):
 
   def classify(self, sdr):
     for key, value in self.classes.iteritems():
+      # TODO: Return closest match, not first match
       if len(value & sdr) >= self.sdrThreshold:
         return key
 

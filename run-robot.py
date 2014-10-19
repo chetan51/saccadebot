@@ -83,9 +83,8 @@ def sweep(targets, robot, callback):
   robot.move(targets[0])
 
   for target in targets[1:]:
-    current = robot.actuator.current_position
-    sensorValue = robot.sensor.center_ir_sensor_value
-
+    current = robot.actuator.current_position  
+    sensorValue = robot.getSensorValue()
     callback(sensorValue, current, target)
 
     robot.move(target)
@@ -123,7 +122,7 @@ def randomly(targets, robot, callback):
     validTargets = list(set(targets) - set([target]))  # Don't allow repeats
     target = random.choice(validTargets)
     current = robot.actuator.current_position
-    sensorValue = robot.sensor.center_ir_sensor_value
+    sensorValue = robot.getSensorValue()
 
     callback(sensorValue, current, target)
 

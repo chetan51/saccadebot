@@ -39,8 +39,21 @@ class Robot(object):
 
     self.move(512)
 
-
   def move(self, target):
     self.actuator.goal_position = target
     self.net.synchronize()
     time.sleep(1.25)
+
+  def getSensorValue(self):
+    sensorValue = self.linearizeInput(
+                  self.sensor.center_ir_sensor_value)
+    return sensorValue
+    
+  @staticmethod
+  def linearizeInput(sensorValue):
+    import math
+    if sensorValue < 13.0655:
+      dist = 40
+    else:
+      dist = - (math.log((sensorValue-13.0655)/52.4871) - 3.0533) / 0.1708
+    return dist

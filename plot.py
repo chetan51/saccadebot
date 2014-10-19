@@ -22,6 +22,8 @@ class Plot(object):
     self.plot = plt.figure()
     plt.clf()
     plt.gca().invert_yaxis()
+    ion() # interactive mode on
+    plt.show()
 
 
   def update(self, model):
@@ -50,7 +52,6 @@ class Plot(object):
 
   def display(self):
     nrol = 2
-    ion() # interactive mode on
     plt.subplot(nrol, 1, 1)
     plt.imshow(self.l3Activity, cmap = cm.Greys_r, \
                 aspect="auto",interpolation="nearest")    

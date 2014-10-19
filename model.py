@@ -7,17 +7,17 @@ class Model(object):
 
 
   def __init__(self):
-    self.sensorEncoder = ScalarEncoder(n=100, w=11, minval=20, maxval=40,
+    self.sensorEncoder = ScalarEncoder(n=100, w=7, minval=0, maxval=255,
                                        clipInput=True, forced=True)
-    self.motorEncoder = ScalarEncoder(n=100, w=11, minval=-400, maxval=400,
+    self.motorEncoder = ScalarEncoder(n=100, w=7, minval=-400, maxval=400,
                                       clipInput=True, forced=True)
 
     self.experimentRunner = SensorimotorExperimentRunner(
       tmOverrides={
         "columnDimensions": [512],
-        "minThreshold": 11*2,
-        "maxNewSynapseCount": 11*2,
-        "activationThreshold": 11*2
+        "maxNewSynapseCount": 7*2,
+        "minThreshold": 5*2,
+        "activationThreshold": 5*2
       },
       tpOverrides={
         "columnDimensions": [512],
@@ -28,7 +28,8 @@ class Model(object):
 
   def feed(self, sensorValue, motorValue, sequenceLabel=None):
     sensorSDR = set(self.sensorEncoder.encode(sensorValue).nonzero()[0].tolist())
-    motorSDR = set(self.motorEncoder.encode(motorValue).nonzero()[0].tolist())
+    motorSDR = set((self.motorEncoder.encode(motorValue).nonzero()[0] +
+                    self.sensorEncoder.n).tolist())
     sensorimotorSDR = sensorSDR.union(motorSDR)
 
     self.experimentRunner.feedLayers([[sensorSDR],

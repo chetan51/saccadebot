@@ -40,7 +40,7 @@ def main():
         csvFile.flush()
 
         model.feed(sensorValue, motorValue, sequenceLabel=i)
-        print model.experimentRunner.tp.mmGetTraceActiveCells().data[-1]
+        print sorted(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])
         # print MonitorMixinBase.mmPrettyPrintTraces(
         #   model.experimentRunner.tm.mmGetDefaultTraces() +
         #   model.experimentRunner.tp.mmGetDefaultTraces())

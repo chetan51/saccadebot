@@ -58,42 +58,23 @@ class Plot(object):
 
 
   def display(self):
-    nrol = 4
+    nrol = 3
     plt.subplot(nrol, 1, 1)
     plt.imshow(self.l3Activity, cmap = cm.Greys_r, \
                 aspect="auto",interpolation="nearest")    
     plt.ylabel(' L3 Activity ')
 
+
     ax = plt.subplot(nrol, 1, 2)
-    if self.l3Activity.shape[1] > 20:    
-        l3Activity_short = self.l3Activity[:,-20:]
-        t_offset = self.l3Activity.shape[1] - 20
-    else:
-        l3Activity_short = self.l3Activity
-        t_offset = 0
-
-    plt.imshow(l3Activity_short, cmap = cm.Greys_r, \
-                aspect="auto",interpolation="nearest")    
-    plt.ylabel(' L3 Activity ')
-
-    if t_offset>0:
-        ax.set_xticks(np.arange(0,20,5))
-        ax.set_xticklabels(np.arange(0,20,5) + t_offset)
-
-    ax = plt.subplot(nrol, 1, 3)
-    if self.l4Activity.shape[1] > 20:    
-        l4Activity_short = self.l4Activity[:,-20:]    
-    else:
-        l4Activity_short = self.l4Activity
-    plt.imshow(l4Activity_short, cmap = cm.Greys_r, \
+    plt.imshow(self.l4Activity, cmap = cm.Greys_r, \
                 aspect="auto",interpolation="nearest")
     plt.ylabel(' L4 Activity ')
-    if t_offset>0:
-        ax.set_xticks(np.arange(0,20,5))
-        ax.set_xticklabels(np.arange(0,20,5) + t_offset)
+    xmin, xmax = plt.xlim()
 
-    ax = plt.subplot(nrol, 1, 4)
+    ax = plt.subplot(nrol, 1, 3)
     plt.plot(self.numPredictedInput,'b-')    
     ax.set_ylim([-1, 21])
+    plt.ylabel(' # Predicted ')
+    plt.xlim(xmin, xmax)
 
     draw()

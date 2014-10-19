@@ -46,6 +46,11 @@ class Robot(object):
     time.sleep(1.25)
 
 
+  def playTune(self, tuneIndex):
+    self.sensor.buzzer_time = 255
+    self.sensor.buzzer_index = tuneIndex
+
+
   def getSensorValue(self):
     sensorValue = self.linearizeInput(self.sensor.center_ir_sensor_value)
     return sensorValue

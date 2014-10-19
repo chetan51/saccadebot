@@ -53,6 +53,9 @@ def main():
         print "Classification: {0}".format(classification)
         print sorted(tpActiveCells)
 
+        if classification is not None:
+          robot.playTune(classification)
+
         plot.update(model)
 
 

@@ -29,13 +29,19 @@ def main():
     csvWriter = csv.writer(csvFile)
 
     for i in count(1):
-      behaviorType = raw_input("Enter behavior type: "
-                               "Exhaustive (e), Random (r), "
-                               "Sweep (s), User (u): ")
-      assert behaviorType in ["e", "r", "s", "u"]
+      behaviorType = None
+      while behaviorType is None:
+        behaviorType = raw_input("Enter behavior type: "
+                                 "Exhaustive (e), Random (r), "
+                                 "Sweep (s), User (u): ")
+        behaviorType = behaviorType if behaviorType in ["e", "r", "s", "u"] else None
 
-      targets = input("Enter targets (Python code returning a list): ")
-      assert len(targets)
+      targets = None
+      while targets is None:
+        try:
+          targets = input("Enter targets (Python code returning a list): ")
+          targets = targets if type(targets) is list and len(targets) else None
+        except: pass
 
 
       def callback(sensorValue, current, target):
@@ -51,7 +57,6 @@ def main():
         tpActiveCells = model.experimentRunner.tp.mmGetTraceActiveCells().data[-1]
         classification = classifier.feed(tpActiveCells)
         print "Classification: {0}".format(classification)
-        print sorted(tpActiveCells)
 
         if classification is not None:
           robot.playTune(classification)
@@ -77,7 +82,11 @@ def main():
 
       robot.reset()
 
-      doReset = raw_input("Reset (y/n)? ")
+      doReset = None
+      while doReset is None:
+        doReset = raw_input("Reset (y/n)? ")
+        doReset = doReset if doReset in ["y", "n"] else None
+
       if doReset == "y":
         model.experimentRunner.tm.reset()
         model.experimentRunner.tp.reset()
@@ -125,7 +134,11 @@ def exhaustive(targets, robot, callback):
 
 
 def randomly(targets, robot, callback):
-  num = input("Enter number of movements: ")
+  num = None
+  while num is None:
+    try:
+      num = input("Enter number of movements: ")
+    except: pass
   target = None
 
   for _ in range(num):
@@ -141,7 +154,11 @@ def randomly(targets, robot, callback):
 
 
 def randomlyExplore(targets, robot, callback):
-  num = input("Enter number of movements: ")
+  num = None
+  while num is None:
+    try:
+      num = input("Enter number of movements: ")
+    except: pass
   target = None
   
   past_path = []

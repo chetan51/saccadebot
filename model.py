@@ -16,12 +16,13 @@ class Model(object):
       tmOverrides={
         "columnDimensions": [512],
         "maxNewSynapseCount": 21*2,
-        "minThreshold": 16*2,
-        "activationThreshold": 16*2
+        "minThreshold": 18*2,
+        "activationThreshold": 18*2
       },
       tpOverrides={
         "columnDimensions": [512],
         "numActiveColumnsPerInhArea": 20,
+        "poolingThreshUnpredicted": 0.5
       }
     )
 

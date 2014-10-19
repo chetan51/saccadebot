@@ -7,7 +7,7 @@ from nupic.research.monitor_mixin.monitor_mixin_base import MonitorMixinBase
 
 from model import Model
 from robot import Robot
-
+from plot import Plot
 
 
 OUTFILE_PATH = "output.csv"
@@ -18,6 +18,7 @@ def main():
   print "Initializing..."
   robot = Robot()
   model = Model()
+  plot = Plot()
 
   with open(OUTFILE_PATH, "wb") as csvFile:
     csvWriter = csv.writer(csvFile)
@@ -42,6 +43,12 @@ def main():
 
         model.feed(sensorValue, motorValue, sequenceLabel=i)
         print sorted(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])
+
+        plot.update(model)
+        # print MonitorMixinBase.mmPrettyPrintTraces(
+        #   model.experimentRunner.tm.mmGetDefaultTraces() +
+        #   model.experimentRunner.tp.mmGetDefaultTraces())
+
 
       if behaviorType == "s":
         sweep(targets, robot, callback)

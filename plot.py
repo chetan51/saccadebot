@@ -9,20 +9,22 @@ class Plot(object):
 
 
   def __init__(self,model):
-    # establish an empty plot
+    
     # TODO: Refactor columnDimensionsL4
     self.columnDimensionsL4 = (
       model.experimentRunner.tm.connections.columnDimensions[0])
     self.columnDimensionsL3 = model.experimentRunner.tp._numColumns
     self.sensoryInputDim = model.sensorEncoder.n
     self.motorInputDim = model.motorEncoder.n
+    self.sensoryInputNumActive = model.sensorEncoder.w
 
     self.l4Activity = np.zeros((self.columnDimensionsL4, 1))
     self.l3Activity = np.zeros((self.columnDimensionsL3, 1))
 
-    self.numPredictedInput = []
-    self.numExtraPredictedInput = []
+    self.numPredictedInput = [0]
+    self.numExtraPredictedInput = [0]
 
+    # establish an empty plot
     self.plot = plt.figure()
     plt.clf()
     plt.gca().invert_yaxis()
@@ -72,9 +74,10 @@ class Plot(object):
     xmin, xmax = plt.xlim()
 
     ax = plt.subplot(nrol, 1, 3)
-    plt.plot(self.numPredictedInput,'b-')    
-    ax.set_ylim([-1, 21])
-    plt.ylabel(' # Predicted ')
+    numUnPredicted = self.sensoryInputNumActive - np.array(self.numPredictedInput)
+    plt.plot(numUnPredicted,'b-',linewidth=4.0)    
+    ax.set_ylim([-1, 22])
+    plt.ylabel(' # Unpredicted ')
     plt.xlim(xmin, xmax)
 
     draw()

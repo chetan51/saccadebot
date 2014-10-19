@@ -149,10 +149,11 @@ def randomlyExplore(targets, robot, callback):
     current_position = robot.actuator.current_position    
     validTargets = list(set(targets) - set([target]))  # Don't allow repeats
     frequency_count = [0] * len(validTargets)
+
     for target in range(len(validTargets)):
       for i in range(len(past_path)):
         if (past_path[i][0] == current_position and 
-          past_path[i][1] == validTargets):
+          past_path[i][1] == validTargets[target]):
             frequency_count[target] += 1
     
     # randomly pick one that has the minimum frequency count

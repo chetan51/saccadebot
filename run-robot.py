@@ -5,9 +5,10 @@ import random
 
 from nupic.research.monitor_mixin.monitor_mixin_base import MonitorMixinBase
 
+from classifier import Classifier
 from model import Model
-from robot import Robot
 from plot import Plot
+from robot import Robot
 
 
 OUTFILE_PATH = "output.csv"
@@ -21,6 +22,8 @@ def main():
   model = Model()
   print "Initializing plot..."
   plot = Plot()
+  print "Initializing classifier..."
+  classifier = Classifier()
 
   with open(OUTFILE_PATH, "wb") as csvFile:
     csvWriter = csv.writer(csvFile)
@@ -45,7 +48,10 @@ def main():
         csvFile.flush()
 
         model.feed(sensorValue, motorValue, sequenceLabel=i)
-        print sorted(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])
+        tpActiveCells = model.experimentRunner.tp.mmGetTraceActiveCells().data[-1]
+        classification = classifier.feed(tpActiveCells)
+        print "Classification: {0}".format(classification)
+        print sorted(tpActiveCells)
 
         plot.update(model)
 

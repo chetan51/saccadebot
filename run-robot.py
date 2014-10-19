@@ -38,6 +38,8 @@ def main():
 
       if behaviorType == "s":
         sweep(targets, robot, callback)
+      elif behaviorType == "e":
+        exhaustive(targets, robot, callback)
 
       robot.reset()
 
@@ -54,6 +56,29 @@ def sweep(targets, robot, callback):
     callback(sensorValue, current, target)
 
     robot.move(target)
+
+
+def exhaustive(targets, robot, callback):
+  moves = []
+  currentPosition = targets[0]
+  homePositions = list(targets)
+  awayPositions = []
+
+  while len(homePositions):
+    if not len(awayPositions):
+      newHomePosition = homePositions.pop(0)
+      moves.append(newHomePosition)
+      currentPosition = newHomePosition
+      awayPositions = list(homePositions)
+
+    while len(awayPositions):
+      awayPosition = awayPositions.pop(0)
+      moves.append(awayPosition)
+      moves.append(currentPosition)
+
+  moves.append(targets[0])  # Finish at start position
+
+  sweep(moves, robot, callback)
 
 
 

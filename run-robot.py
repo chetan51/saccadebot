@@ -145,23 +145,20 @@ def randomlyExplore(targets, robot, callback):
   target = None
   
   past_path = []
-  move = []
   for _ in range(num):
     current_position = robot.actuator.current_position    
     validTargets = list(set(targets) - set([target]))  # Don't allow repeats
     frequency_count = [0] * len(validTargets)
-    for targeti in range(len(validTargets)):
-      potentialMove = [current_position, validTargets]
+    for target in range(len(validTargets)):
       for i in range(len(past_path)):
         if (past_path[i][0] == current_position and 
           past_path[i][1] == validTargets):
-            frequency_count[targeti] += 1
+            frequency_count[target] += 1
     
     # randomly pick one that has the minimum frequency count
-    target = random.choice( [validTargets[
-        frequency_count.index(min(frequency_count))]] )
+    target = random.choice(
+      [validTargets[frequency_count.index(min(frequency_count))]])
 
-    target = random.choice(validTargets)
     current = robot.actuator.current_position
     sensorValue = robot.getSensorValue()
 
@@ -169,6 +166,8 @@ def randomlyExplore(targets, robot, callback):
 
     robot.move(target)
     past_path.append([current_position, target])
+
+
 
 if __name__ == '__main__':
   main()

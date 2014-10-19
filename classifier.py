@@ -1,7 +1,7 @@
 class Classifier(object):
 
 
-  def __init__(self, sdrThreshold=12, durationThreshold=3):
+  def __init__(self, sdrThreshold=12, durationThreshold=5):
     self.sdrThreshold = sdrThreshold
     self.durationThreshold = durationThreshold
 

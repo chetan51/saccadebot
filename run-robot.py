@@ -42,9 +42,6 @@ def main():
 
         model.feed(sensorValue, motorValue, sequenceLabel=i)
         print sorted(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])
-        # print MonitorMixinBase.mmPrettyPrintTraces(
-        #   model.experimentRunner.tm.mmGetDefaultTraces() +
-        #   model.experimentRunner.tp.mmGetDefaultTraces())
 
       if behaviorType == "s":
         sweep(targets, robot, callback)
@@ -52,6 +49,10 @@ def main():
         exhaustive(targets, robot, callback)
       elif behaviorType == "r":
         randomly(targets, robot, callback)
+
+      print MonitorMixinBase.mmPrettyPrintTraces(
+        model.experimentRunner.tm.mmGetDefaultTraces() +
+        model.experimentRunner.tp.mmGetDefaultTraces())
 
       print MonitorMixinBase.mmPrettyPrintMetrics(
         model.experimentRunner.tm.mmGetDefaultMetrics() +

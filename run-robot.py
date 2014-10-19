@@ -51,8 +51,8 @@ def main():
         randomly(targets, robot, callback)
 
       print MonitorMixinBase.mmPrettyPrintTraces(
-        model.experimentRunner.tm.mmGetDefaultTraces() +
-        model.experimentRunner.tp.mmGetDefaultTraces())
+        model.experimentRunner.tm.mmGetDefaultTraces(verbosity=2) +
+        model.experimentRunner.tp.mmGetDefaultTraces(verbosity=2))
 
       print MonitorMixinBase.mmPrettyPrintMetrics(
         model.experimentRunner.tm.mmGetDefaultMetrics() +

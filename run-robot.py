@@ -15,9 +15,11 @@ OUTFILE_PATH = "output.csv"
 
 
 def main():
-  print "Initializing..."
+  print "Initializing robot..."
   robot = Robot()
+  print "Initializing model..."
   model = Model()
+  print "Initializing plot..."
   plot = Plot()
 
   with open(OUTFILE_PATH, "wb") as csvFile:
@@ -32,6 +34,7 @@ def main():
       targets = input("Enter targets (Python code returning a list): ")
       assert len(targets)
 
+
       def callback(sensorValue, current, target):
         print "Current: {0}\tSensor: {1}\tNext: {2}".format(current,
                                                             sensorValue,
@@ -45,9 +48,6 @@ def main():
         print sorted(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])
 
         plot.update(model)
-        # print MonitorMixinBase.mmPrettyPrintTraces(
-        #   model.experimentRunner.tm.mmGetDefaultTraces() +
-        #   model.experimentRunner.tp.mmGetDefaultTraces())
 
 
       if behaviorType == "s":
@@ -59,14 +59,16 @@ def main():
 
       print MonitorMixinBase.mmPrettyPrintTraces(
         model.experimentRunner.tm.mmGetDefaultTraces(verbosity=2) +
-        model.experimentRunner.tp.mmGetDefaultTraces(verbosity=2))
+        model.experimentRunner.tp.mmGetDefaultTraces(verbosity=2),
+        breakOnResets=model.experimentRunner.tm.mmGetTraceResets())
 
       print MonitorMixinBase.mmPrettyPrintMetrics(
         model.experimentRunner.tm.mmGetDefaultMetrics() +
         model.experimentRunner.tp.mmGetDefaultMetrics())
 
       robot.reset()
-      model.feed(None, None, sequenceLabel=i)  # Reset
+      model.experimentRunner.tm.reset()
+      model.experimentRunner.tp.reset()
 
       model.experimentRunner.tm.mmClearHistory()
       model.experimentRunner.tp.mmClearHistory()

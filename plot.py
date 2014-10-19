@@ -11,8 +11,8 @@ class Plot(object):
   def __init__(self):
     # establish an empty plot
 
-    self.columnDimensionsL4 = 100
-    self.columnDimensionsL3 = 100
+    self.columnDimensionsL4 = 512
+    self.columnDimensionsL3 = 512
     self.sensoryInputDim = 100
     self.motorInputDim = 100
 

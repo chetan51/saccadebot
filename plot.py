@@ -10,7 +10,9 @@ class Plot(object):
 
   def __init__(self,model):
     # establish an empty plot
-    self.columnDimensionsL4 = model.experimentRunner.tm.connections.columnDimensions
+    # TODO: Refactor columnDimensionsL4
+    self.columnDimensionsL4 = (
+      model.experimentRunner.tm.connections.columnDimensions[0])
     self.columnDimensionsL3 = model.experimentRunner.tp._numColumns
     self.sensoryInputDim = model.sensorEncoder.n
     self.motorInputDim = model.motorEncoder.n
@@ -92,10 +94,6 @@ class Plot(object):
 
     ax = plt.subplot(nrol, 1, 4)
     plt.plot(self.numPredictedInput,'b-')    
-    nIter = len(self.numPredictedInput)
     ax.set_ylim([-1, 21])
-    # print t_offset, nIter-t_offset, nIter-1
-    if t_offset>0:
-        ax.set_xlim([nIter-t_offset, nIter-1])
 
     draw()

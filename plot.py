@@ -37,7 +37,6 @@ class Plot(object):
         L4_active[list(model.experimentRunner.tm.mmGetTraceActiveColumns().data[-1])] = 1
 
     self.l4Activity = np.concatenate((self.l4Activity, L4_active),1)
-    print self.l4Activity.shape[1]
 
     if len(model.experimentRunner.tp.mmGetTraceActiveCells().data)>0:
         L3_active[list(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])] = 1

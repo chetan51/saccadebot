@@ -7,7 +7,7 @@ class Model(object):
 
 
   def __init__(self):
-    self.sensorEncoder = ScalarEncoder(n=512, w=21, minval=0, maxval=255,
+    self.sensorEncoder = ScalarEncoder(n=512, w=21, minval=8.9, maxval=40,
                                        clipInput=True, forced=True)
     self.motorEncoder = ScalarEncoder(n=512, w=21, minval=-400, maxval=400,
                                       clipInput=True, forced=True)
@@ -26,7 +26,7 @@ class Model(object):
     )
 
 
-  def feed(self, sensorValue, motorValue, sequenceLabel=None):
+  def feed(self, sensorValue, motorValue, sequenceLabel=None):    
     sensorSDR = set(self.sensorEncoder.encode(sensorValue).nonzero()[0].tolist())
     motorSDR = set((self.motorEncoder.encode(motorValue).nonzero()[0] +
                     self.sensorEncoder.n).tolist())

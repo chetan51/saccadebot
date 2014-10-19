@@ -27,6 +27,9 @@ class Robot(object):
     actuator = self.net.get_dynamixels()[0]
     self.actuator = actuator
 
+    # record previous path of the robot
+    self.past_path = []
+
     self.reset()
 
 
@@ -37,12 +40,15 @@ class Robot(object):
     actuator.max_torque = 800
     actuator.moving_speed = 1023
 
+    self.past_path = []
+
     self.move(512)
 
 
   def move(self, target):
     self.actuator.goal_position = target
     self.net.synchronize()
+    self.past_path.append([self.actuator.current_position, target])
     time.sleep(1.25)
 
 

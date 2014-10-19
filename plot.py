@@ -8,18 +8,18 @@ import numpy as np
 class Plot(object):
 
 
-  def __init__(self):
+  def __init__(self,model):
     # establish an empty plot
-    self.columnDimensionsL4 = 512
-    self.columnDimensionsL3 = 512
-    self.sensoryInputDim = 100
-    self.motorInputDim = 100
+    self.columnDimensionsL4 = model.experimentRunner.tm.connections.columnDimensions
+    self.columnDimensionsL3 = model.experimentRunner.tp._numColumns
+    self.sensoryInputDim = model.sensorEncoder.n
+    self.motorInputDim = model.motorEncoder.n
 
     self.l4Activity = np.zeros((self.columnDimensionsL4, 1))
     self.l3Activity = np.zeros((self.columnDimensionsL3, 1))
 
     self.numPredictedInput = []
-    self.numUnPredictedInput = []
+    self.numExtraPredictedInput = []
 
     self.plot = plt.figure()
     plt.clf()
@@ -46,12 +46,12 @@ class Plot(object):
 
     # correctly predicted cells
     self.numPredictedInput.append( 
-        len(model.experimentRunner.tm.mmGetTracePredictedInactiveCells().data[-1]) )
-    print self.numPredictedInput
-    # unpredicted cells in L4
-    self.numUnPredictedInput.append(
-        len(model.experimentRunner.tm.mmGetTracePredictedActiveCells().data[-1]))
-    print self.numUnPredictedInput
+        len(model.experimentRunner.tm.mmGetTracePredictedActiveCells().data[-1]) )
+    
+    # extra predicted cells in L4
+    self.numExtraPredictedInput.append(
+        len(model.experimentRunner.tm.mmGetTracePredictedInactiveCells().data[-1]))
+    
     self.display()
 
 
@@ -91,9 +91,11 @@ class Plot(object):
         ax.set_xticklabels(np.arange(0,20,5) + t_offset)
 
     ax = plt.subplot(nrol, 1, 4)
-    plt.plot(self.numPredictedInput)
-    plt.plot(self.numUnPredictedInput)
+    plt.plot(self.numPredictedInput,'b-')    
     nIter = len(self.numPredictedInput)
-    # ax.set_xlim([nIter-t_offset, nIter-1])
+    ax.set_ylim([-1, 21])
+    # print t_offset, nIter-t_offset, nIter-1
+    if t_offset>0:
+        ax.set_xlim([nIter-t_offset, nIter-1])
 
     draw()

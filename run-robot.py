@@ -21,7 +21,7 @@ def main():
   print "Initializing model..."
   model = Model()
   print "Initializing plot..."
-  plot = Plot()
+  plot = Plot(model)
   print "Initializing classifier..."
   classifier = Classifier()
 
@@ -182,7 +182,6 @@ def randomlyExplore(targets, robot, callback):
     
     current = robot.actuator.current_position
     sensorValue = robot.getSensorValue()
-
     
     callback(sensorValue, current, target)
 

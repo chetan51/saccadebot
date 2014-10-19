@@ -36,13 +36,11 @@ class Robot(object):
     actuator.torque_limit = 800
     actuator.max_torque = 800
     actuator.moving_speed = 1023
-    actuator.goal_position = 512
 
-    self.net.synchronize()
-    time.sleep(1)
+    self.move(512)
 
 
   def move(self, target):
     self.actuator.goal_position = target
     self.net.synchronize()
-    time.sleep(1)
+    time.sleep(1.25)

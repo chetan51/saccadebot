@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import csv
 from itertools import count
+import random
 
 from nupic.research.monitor_mixin.monitor_mixin_base import MonitorMixinBase
 
@@ -49,6 +50,8 @@ def main():
         sweep(targets, robot, callback)
       elif behaviorType == "e":
         exhaustive(targets, robot, callback)
+      elif behaviorType == "r":
+        randomly(targets, robot, callback)
 
       print MonitorMixinBase.mmPrettyPrintMetrics(
         model.experimentRunner.tm.mmGetDefaultMetrics() +
@@ -97,6 +100,21 @@ def exhaustive(targets, robot, callback):
   moves.append(targets[0])  # Finish at start position
 
   sweep(moves, robot, callback)
+
+
+
+def randomly(targets, robot, callback):
+  num = input("Enter number of movements: ")
+  target = None
+  for _ in range(num):
+    validTargets = list(set(targets) - set([target]))  # Don't allow repeats
+    target = random.choice(validTargets)
+    current = robot.actuator.current_position
+    sensorValue = robot.sensor.center_ir_sensor_value
+
+    callback(sensorValue, current, target)
+
+    robot.move(target)
 
 
 

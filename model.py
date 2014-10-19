@@ -32,8 +32,6 @@ class Model(object):
                     self.sensorEncoder.n).tolist())
     sensorimotorSDR = sensorSDR.union(motorSDR)
 
-    print "sensorValue", sensorValue
-    print "sensory SDR input: ", sensorSDR
     self.experimentRunner.feedTransition(sensorSDR, sensorimotorSDR,
                                          tmLearn=True, tpLearn=True,
                                          sequenceLabel=sequenceLabel)

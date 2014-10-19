@@ -51,7 +51,6 @@ def main():
         tpActiveCells = model.experimentRunner.tp.mmGetTraceActiveCells().data[-1]
         classification = classifier.feed(tpActiveCells)
         print "Classification: {0}".format(classification)
-        print sorted(tpActiveCells)
 
         if classification is not None:
           robot.playTune(classification)

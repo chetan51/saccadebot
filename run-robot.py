@@ -2,7 +2,7 @@
 import csv
 from itertools import count
 import random
-
+import numpy as np
 from nupic.research.monitor_mixin.monitor_mixin_base import MonitorMixinBase
 
 from classifier import Classifier
@@ -157,12 +157,16 @@ def randomlyExplore(targets, robot, callback):
             frequency_count[target] += 1
     
     # randomly pick one that has the minimum frequency count
+    frequency_count = np.array(frequency_count)
+    validTargets = np.array(validTargets)
+    print frequency_count
     target = random.choice(
-      [validTargets[frequency_count.index(min(frequency_count))]])
-
+      [validTargets[np.where(frequency_count==min(frequency_count))[0]]][0])
+    
     current = robot.actuator.current_position
     sensorValue = robot.getSensorValue()
 
+    
     callback(sensorValue, current, target)
 
     robot.move(target)

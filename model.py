@@ -31,7 +31,8 @@ class Model(object):
     motorSDR = set(self.motorEncoder.encode(motorValue).nonzero()[0].tolist())
     sensorimotorSDR = sensorSDR.union(motorSDR)
 
-    self.experimentRunner.feedLayers([sensorSDR,
-                                      motorSDR,
-                                      sensorimotorSDR,
-                                      sequenceLabel])
+    self.experimentRunner.feedLayers([[sensorSDR],
+                                      [motorSDR],
+                                      [sensorimotorSDR],
+                                      [sequenceLabel]],
+                                     tmLearn=True, tpLearn=True)

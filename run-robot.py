@@ -2,6 +2,8 @@
 import csv
 from itertools import count
 
+from nupic.research.monitor_mixin.monitor_mixin_base import MonitorMixinBase
+
 from model import Model
 from robot import Robot
 
@@ -14,7 +16,7 @@ OUTFILE_PATH = "output.csv"
 def main():
   print "Initializing..."
   robot = Robot()
-  # model = Model()
+  model = Model()
 
   with open(OUTFILE_PATH, "wb") as csvFile:
     csvWriter = csv.writer(csvFile)
@@ -32,16 +34,31 @@ def main():
         print "Current: {0}\tSensor: {1}\tNext: {2}".format(current,
                                                             sensorValue,
                                                             target)
-        row = [sensorValue, target - current, i]
+        motorValue = target - current
+        row = [sensorValue, motorValue, i]
         csvWriter.writerow(row)
         csvFile.flush()
+
+        model.feed(sensorValue, motorValue, sequenceLabel=i)
+        print model.experimentRunner.tp.mmGetTraceActiveCells().data[-1]
+        # print MonitorMixinBase.mmPrettyPrintTraces(
+        #   model.experimentRunner.tm.mmGetDefaultTraces() +
+        #   model.experimentRunner.tp.mmGetDefaultTraces())
 
       if behaviorType == "s":
         sweep(targets, robot, callback)
       elif behaviorType == "e":
         exhaustive(targets, robot, callback)
 
+      print MonitorMixinBase.mmPrettyPrintMetrics(
+        model.experimentRunner.tm.mmGetDefaultMetrics() +
+        model.experimentRunner.tp.mmGetDefaultMetrics())
+
       robot.reset()
+      model.feed(None, None, sequenceLabel=i)  # Reset
+
+      model.experimentRunner.tm.mmClearHistory()
+      model.experimentRunner.tp.mmClearHistory()
 
 
 
@@ -56,6 +73,7 @@ def sweep(targets, robot, callback):
     callback(sensorValue, current, target)
 
     robot.move(target)
+
 
 
 def exhaustive(targets, robot, callback):

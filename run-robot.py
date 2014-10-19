@@ -45,9 +45,6 @@ def main():
 
 
       def callback(sensorValue, current, target):
-        print "Current: {0}\tSensor: {1}\tNext: {2}".format(current,
-                                                            sensorValue,
-                                                            target)
         motorValue = target - current
         row = [sensorValue, motorValue, i]
         csvWriter.writerow(row)
@@ -56,7 +53,9 @@ def main():
         model.feed(sensorValue, motorValue, sequenceLabel=i)
         tpActiveCells = model.experimentRunner.tp.mmGetTraceActiveCells().data[-1]
         classification = classifier.feed(tpActiveCells)
-        print "Classification: {0}".format(classification)
+
+        print "Current: {0}\tSensor: {1}\tNext: {2}\tClassification: {3}".format(
+          current, sensorValue, target, classification)
 
         if classification is not None:
           robot.playTune(classification)

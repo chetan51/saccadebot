@@ -43,7 +43,7 @@ class Robot(object):
   def move(self, target):
     self.actuator.goal_position = target
     self.net.synchronize()    
-    time.sleep(1.25)
+    time.sleep(1)
 
 
   def playTune(self, tuneIndex):

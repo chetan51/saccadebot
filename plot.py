@@ -10,7 +10,6 @@ class Plot(object):
 
   def __init__(self):
     # establish an empty plot
-
     self.columnDimensionsL4 = 512
     self.columnDimensionsL3 = 512
     self.sensoryInputDim = 100
@@ -30,7 +29,6 @@ class Plot(object):
     """
     update figure 
     """
-
     L4_active = np.zeros((self.columnDimensionsL4, 1))
     L3_active = np.zeros((self.columnDimensionsL3, 1))
     if len(model.experimentRunner.tm.mmGetTraceActiveColumns().data)>0:

@@ -42,7 +42,7 @@ class Robot(object):
 
   def move(self, target):
     self.actuator.goal_position = target
-    self.net.synchronize()
+    self.net.synchronize()    
     time.sleep(1.25)
 
 

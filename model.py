@@ -15,9 +15,9 @@ class Model(object):
     self.experimentRunner = SensorimotorExperimentRunner(
       tmOverrides={
         "columnDimensions": [512],
-        "maxNewSynapseCount": 7*2,
-        "minThreshold": 5*2,
-        "activationThreshold": 5*2
+        "maxNewSynapseCount": 21*2,
+        "minThreshold": 16*2,
+        "activationThreshold": 16*2
       },
       tpOverrides={
         "columnDimensions": [512],

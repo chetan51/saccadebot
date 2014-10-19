@@ -7,20 +7,20 @@ class Model(object):
 
 
   def __init__(self):
-    self.sensorEncoder = ScalarEncoder(n=100, w=21, minval=8.9, maxval=40,
+    self.sensorEncoder = ScalarEncoder(n=512, w=21, minval=8.9, maxval=40,
                                        clipInput=True, forced=True)
-    self.motorEncoder = ScalarEncoder(n=100, w=21, minval=-400, maxval=400,
+    self.motorEncoder = ScalarEncoder(n=512, w=21, minval=-400, maxval=400,
                                       clipInput=True, forced=True)
 
     self.experimentRunner = SensorimotorExperimentRunner(
       tmOverrides={
-        "columnDimensions": [100],
+        "columnDimensions": [512],
         "maxNewSynapseCount": 21*2,
         "minThreshold": 16*2,
         "activationThreshold": 16*2
       },
       tpOverrides={
-        "columnDimensions": [100],
+        "columnDimensions": [512],
         "numActiveColumnsPerInhArea": 20,
       }
     )

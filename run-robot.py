@@ -55,7 +55,7 @@ def main():
       elif behaviorType == "e":
         exhaustive(targets, robot, callback)
       elif behaviorType == "r":
-        randomlySelfAvoid(targets, robot, callback)
+        randomlyExplore(targets, robot, callback)
 
       print MonitorMixinBase.mmPrettyPrintTraces(
         model.experimentRunner.tm.mmGetDefaultTraces(verbosity=2) +
@@ -131,10 +131,11 @@ def randomly(targets, robot, callback):
 
 
 
-def randomlySelfAvoid(targets, robot, callback):
+def randomlyExplore(targets, robot, callback):
   num = input("Enter number of movements: ")
   target = None
   
+  past_path = []
   move = []
   for _ in range(num):
     current_position = robot.actuator.current_position    
@@ -142,13 +143,13 @@ def randomlySelfAvoid(targets, robot, callback):
     frequency_count = [0] * len(validTargets)
     for targeti in range(len(validTargets)):
       potentialMove = [current_position, validTargets]
-      for i in range(len(robot.past_path)):
-        if robot.past_path[i][0] == current_position and \
-          robot.past_path[i][1] == validTargets:
+      for i in range(len(past_path)):
+        if (past_path[i][0] == current_position and 
+          past_path[i][1] == validTargets):
             frequency_count[targeti] += 1
     
     # randomly pick one that has the minimum frequency count
-    target = random.choice( [validTargets[\
+    target = random.choice( [validTargets[
         frequency_count.index(min(frequency_count))]] )
 
     target = random.choice(validTargets)
@@ -158,6 +159,7 @@ def randomlySelfAvoid(targets, robot, callback):
     callback(sensorValue, current, target)
 
     robot.move(target)
+    past_path.append([current_position, target])
 
 if __name__ == '__main__':
   main()

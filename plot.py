@@ -41,10 +41,6 @@ class Plot(object):
     if len(model.experimentRunner.tp.mmGetTraceActiveCells().data)>0:
         L3_active[list(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])] = 1
     self.l3Activity = np.concatenate((self.l3Activity, L3_active),1)
-    
-    # if self.l4Activity.shape[1] > 20:
-    #     self.l4Activity = self.l4Activity[:,-20:]
-    #     self.l3Activity = self.l3Activity[:,-20:]
 
     self.display()
 

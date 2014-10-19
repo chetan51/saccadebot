@@ -176,7 +176,7 @@ def randomlyExplore(targets, robot, callback):
     # randomly pick one that has the minimum frequency count
     frequency_count = np.array(frequency_count)
     validTargets = np.array(validTargets)
-    print frequency_count
+    
     target = random.choice(
       [validTargets[np.where(frequency_count==min(frequency_count))[0]]][0])
     

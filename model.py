@@ -7,9 +7,9 @@ class Model(object):
 
 
   def __init__(self):
-    self.sensorEncoder = ScalarEncoder(n=100, w=7, minval=0, maxval=255,
+    self.sensorEncoder = ScalarEncoder(n=512, w=21, minval=0, maxval=255,
                                        clipInput=True, forced=True)
-    self.motorEncoder = ScalarEncoder(n=100, w=7, minval=-400, maxval=400,
+    self.motorEncoder = ScalarEncoder(n=512, w=21, minval=-400, maxval=400,
                                       clipInput=True, forced=True)
 
     self.experimentRunner = SensorimotorExperimentRunner(

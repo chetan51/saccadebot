@@ -18,6 +18,9 @@ class Plot(object):
     self.l4Activity = np.zeros((self.columnDimensionsL4, 1))
     self.l3Activity = np.zeros((self.columnDimensionsL3, 1))
 
+    self.numPredictedInput = []
+    self.numUnPredictedInput = []
+
     self.plot = plt.figure()
     plt.clf()
     plt.gca().invert_yaxis()
@@ -29,6 +32,7 @@ class Plot(object):
     """
     update figure 
     """
+    # L4 and L3 activity
     L4_active = np.zeros((self.columnDimensionsL4, 1))
     L3_active = np.zeros((self.columnDimensionsL3, 1))
     if len(model.experimentRunner.tm.mmGetTraceActiveColumns().data)>0:
@@ -40,11 +44,19 @@ class Plot(object):
         L3_active[list(model.experimentRunner.tp.mmGetTraceActiveCells().data[-1])] = 1
     self.l3Activity = np.concatenate((self.l3Activity, L3_active),1)
 
+    # correctly predicted cells
+    self.numPredictedInput.append( 
+        len(model.experimentRunner.tm.mmGetTracePredictedInactiveCells().data[-1]) )
+    print self.numPredictedInput
+    # unpredicted cells in L4
+    self.numUnPredictedInput.append(
+        len(model.experimentRunner.tm.mmGetTracePredictedActiveCells().data[-1]))
+    print self.numUnPredictedInput
     self.display()
 
 
   def display(self):
-    nrol = 3
+    nrol = 4
     plt.subplot(nrol, 1, 1)
     plt.imshow(self.l3Activity, cmap = cm.Greys_r, \
                 aspect="auto",interpolation="nearest")    
@@ -63,8 +75,8 @@ class Plot(object):
     plt.ylabel(' L3 Activity ')
 
     if t_offset>0:
-        ax.set_xticks(np.arange(0,25,5))
-        ax.set_xticklabels(np.arange(0,25,5) + t_offset)
+        ax.set_xticks(np.arange(0,20,5))
+        ax.set_xticklabels(np.arange(0,20,5) + t_offset)
 
     ax = plt.subplot(nrol, 1, 3)
     if self.l4Activity.shape[1] > 20:    
@@ -74,9 +86,14 @@ class Plot(object):
     plt.imshow(l4Activity_short, cmap = cm.Greys_r, \
                 aspect="auto",interpolation="nearest")
     plt.ylabel(' L4 Activity ')
-
     if t_offset>0:
-        ax.set_xticks(np.arange(0,25,5))
-        ax.set_xticklabels(np.arange(0,25,5) + t_offset)
+        ax.set_xticks(np.arange(0,20,5))
+        ax.set_xticklabels(np.arange(0,20,5) + t_offset)
+
+    ax = plt.subplot(nrol, 1, 4)
+    plt.plot(self.numPredictedInput)
+    plt.plot(self.numUnPredictedInput)
+    nIter = len(self.numPredictedInput)
+    # ax.set_xlim([nIter-t_offset, nIter-1])
 
     draw()

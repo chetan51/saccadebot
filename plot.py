@@ -12,7 +12,7 @@ class Plot(object):
     
     # TODO: Refactor columnDimensionsL4
     self.columnDimensionsL4 = (
-      model.experimentRunner.tm.connections.columnDimensions[0])
+      model.experimentRunner.tm.columnDimensions[0])
     self.columnDimensionsL3 = model.experimentRunner.tp._numColumns
     self.sensoryInputDim = model.sensorEncoder.n
     self.motorInputDim = model.motorEncoder.n

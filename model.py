@@ -33,6 +33,6 @@ class Model(object):
                     self.sensorEncoder.n).tolist())
     sensorimotorSDR = sensorSDR.union(motorSDR)
 
-    self.experimentRunner.feedTransition(sensorSDR, sensorimotorSDR,
+    self.experimentRunner.feedTransition(sensorSDR, motorSDR, sensorimotorSDR,
                                          tmLearn=True, tpLearn=True,
                                          sequenceLabel=sequenceLabel)

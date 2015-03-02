@@ -1,0 +1,1 @@
+This is a simple robotics application of [sensory-motor inference and temporal pooling](https://github.com/numenta/nupic/wiki/New-Ideas-About-Temporal-Pooling). Made at the NuPIC Hackathon in October 2014.
